@@ -1,0 +1,60 @@
+<project name="CBF for Pentaho 5 server series" default="all"> 
+	<description> "Pentaho BI server customized ant build" </description>
+	
+	<fail message="FATAL: 'project' property not set. Please provide it the ant command, eg: ant -Dproject=myproject -Denv=dev" unless="project"/>
+	
+	<condition property="config.properties" value="build-${env}.properties" else="build.properties">
+		<isset property="env"/>
+	</condition>
+
+	<property name="config.properties.file" value="project-${project}/config/${config.properties}"/>
+	<property name="config.properties.default.file" value="project-${project}/config/build.properties"/>
+
+	<available file="${config.properties.file}" type="file" property="config.properties.exists"/>
+	<fail message="FATAL: Configuration file not found at ${config.properties.path}" unless="config.properties.exists"/>
+
+	<property file="${config.properties.file}"/>
+	<property file="${config.properties.default.file}"/>
+
+	<target name="all" depends="build-server, make-dist, apply-patches"/>
+
+	<target name="build-server" description="Build a full server in pentaho-xxx/assembly/bin/stage">
+		<ant dir="${pentaho.dir}" antfile="dev_build.xml" target="dev-rebuild" inheritAll="true" />
+	</target>
+
+	<target name="make-dist">
+		<delete dir="${dist.dir}" />
+		<copy todir="${dist.dir}" failonerror="true" verbose="false">
+			<fileset dir="${pentaho.dir}/assembly/bin/stage/biserver-ce" />
+		</copy>
+		<chmod dir="${dist.dir}" perm="ugo+rx" includes="**/*.sh"/>
+	</target>
+
+	<target name="apply-patches">
+		<copy todir="${dist.dir}" failonerror="true" overwrite="true" verbose="true" filtering="true">
+			<fileset dir="project-${project}/patches/" />
+			<filterset>
+				<filtersfile file="${config.properties.default.file}"/>
+				<filtersfile file="${config.properties.file}"/>
+			</filterset>
+		</copy>
+	<delete file="${dist.dir}/tomcat/conf/Catalina/localhost/pentaho.xml"/>		
+	</target>
+
+	<property name="ctools_version" value="14.05.06" />
+	<property name="solution.system.dir" value="${dist.dir}/pentaho-solutions/system" />
+
+	<target name="cdf">
+		<echo>la dir è ${solution.system.dir}</echo>
+		
+		<delete dir="tmp" />
+		<mkdir dir="tmp" />
+		<get src="http://www.webdetails.pt/ficheiros/cdf-${ctools_version}/dist.zip" dest="tmp"></get>
+		<unzip src="tmp/dist.zip" dest="tmp/dest"> 
+			<patternset>
+				<include name="dist/pentaho-cdf-${ctools_version}.zip" />
+			</patternset>
+		</unzip>
+		<unzip src="tmp/dest/dist/pentaho-cdf-${ctools_version}.zip" dest="${solution.system.dir}" />
+	</target>
+</project>
