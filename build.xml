@@ -57,6 +57,7 @@
 	<target name="install-cdf" if="cdf.version">
 		<echo> cdf version is ${cdf.version}</echo>		
 		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<delete dir="${solution.system.dir}/pentaho-cdf" />
 		<get src="http://www.webdetails.pt/ficheiros/cdf-${ctools.version}/dist.zip" dest="${tmp.dir}"></get>
 		<unzip src="${tmp.dir}/dist.zip" dest="${tmp.dir}/dest"> 
 			<patternset>
@@ -69,6 +70,7 @@
 	<target name="install-cde" if="cde.version">
 		<echo> cde version is ${cde.version}</echo>
 		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<delete dir="${solution.system.dir}/pentaho-cdf-dd" />
 		<get src="http://www.webdetails.pt/ficheiros/cde/${ctools.version}/5.x/dist.zip" dest="${tmp.dir}"></get>
 		<unzip src="${tmp.dir}/dist.zip" dest="${tmp.dir}/dest"> 
 			<patternset>
@@ -81,6 +83,7 @@
 	<target name="install-cda" if="cda.version">
 		<echo> cda version is ${cda.version}</echo>
 		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<delete dir="${solution.system.dir}/cda" />
 		<get src="http://www.webdetails.pt/ficheiros/cda/${ctools.version}/5.x/dist.zip" dest="${tmp.dir}"></get>
 		<unzip src="${tmp.dir}/dist.zip" dest="${tmp.dir}/dest"> 
 			<patternset>
@@ -93,6 +96,7 @@
 	<target name="install-cgg" if="cgg.version">
 		<echo> cgg version is ${cgg.version}</echo>
 		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<delete dir="${solution.system.dir}/cgg" />
 		<get src="http://www.webdetails.pt/ficheiros/cgg/${ctools.version}/5.x/dist.zip" dest="${tmp.dir}"></get>
 		<unzip src="${tmp.dir}/dist.zip" dest="${tmp.dir}/dest"> 
 			<patternset>
