@@ -102,4 +102,12 @@
 		<unzip src="${tmp.dir}/dest/dist/cgg-${ctools.version}.zip" dest="${solution.system.dir}" />
 	</target>
 
+	<target name="install-saiku" if="saiku.version" depends="make-temp-dir">
+		<echo> saiku version is ${saiku.version}</echo>
+		<delete> <fileset dir="${tmp.dir}" /> </delete>
+		<delete dir="${solution.system.dir}/saiku" />
+		<get src="http://ci.analytical-labs.com/job/saiku-bi-platform-plugin-p5/lastStableBuild/artifact/saiku-bi-platform-plugin-p5/target/saiku-plugin-p5-2.6-SNAPSHOT.zip" dest="${tmp.dir}/saiku-plugin.zip"></get>
+		<unzip src="${tmp.dir}/saiku-plugin.zip" dest="${solution.system.dir}" />
+	</target>
+
 </project>
