@@ -1,7 +1,7 @@
-cbf2
+CBF 2
 ====
 
-This is an helper file to build a pentaho system (server + solution). It's largely derived by CBF tool already available to Pentaho community.
+This is an helper file to build a pentaho system (server + solution). It's largely derived from [CBF](https://github.com/webdetails/cbf) tool already available to Pentaho community.
 
 It features an easier logic to build server (a fewer number of alternative, indeed) and embeds the major plugins setup, via property setting.
 
