@@ -41,20 +41,41 @@
 	<delete file="${dist.dir}/tomcat/conf/Catalina/localhost/pentaho.xml"/>		
 	</target>
 
-	<property name="ctools_version" value="14.05.06" />
 	<property name="solution.system.dir" value="${dist.dir}/pentaho-solutions/system" />
+	<property name="tmp.dir" value=".tmp" />
 
-	<target name="cdf">
-		<echo>la dir è ${solution.system.dir}</echo>
-		
-		<delete dir="tmp" />
-		<mkdir dir="tmp" />
-		<get src="http://www.webdetails.pt/ficheiros/cdf-${ctools_version}/dist.zip" dest="tmp"></get>
-		<unzip src="tmp/dist.zip" dest="tmp/dest"> 
+	<target name="install-ctools" depends="make-temp-dir, install-cde, install-cdf">
+		<echo>All ctools have been installed!</echo>
+	</target>
+
+	<target name="make-temp-dir">
+		<echo>creating temporary folder ${tmp.dir}</echo>
+		<mkdir dir="${tmp.dir}" />
+	</target>
+
+	<target name="install-cdf" if="cdf.version">
+		<echo> cdf version is ${cdf.version}</echo>		
+		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<get src="http://www.webdetails.pt/ficheiros/cdf-${ctools.version}/dist.zip" dest="${tmp.dir}"></get>
+		<unzip src="${tmp.dir}/dist.zip" dest="${tmp.dir}/dest"> 
 			<patternset>
-				<include name="dist/pentaho-cdf-${ctools_version}.zip" />
+				<include name="dist/pentaho-cdf-${ctools.version}.zip" />
 			</patternset>
 		</unzip>
-		<unzip src="tmp/dest/dist/pentaho-cdf-${ctools_version}.zip" dest="${solution.system.dir}" />
+		<unzip src="${tmp.dir}/dest/dist/pentaho-cdf-${ctools.version}.zip" dest="${solution.system.dir}" />
+	</target>
+
+	<target name="install-cde" if="cde.version">
+		<echo> cde version is ${cde.version}</echo>
+		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<get src="http://www.webdetails.pt/ficheiros/cde/${ctools.version}/5.x/dist.zip" dest="${tmp.dir}"></get>
+		<unzip src="${tmp.dir}/dist.zip" dest="${tmp.dir}/dest"> 
+			<patternset>
+				<include name="dist/pentaho-cdf-dd-${ctools.version}.zip" />
+			</patternset>
+		</unzip>
+		<unzip src="${tmp.dir}/dest/dist/pentaho-cdf-dd-${ctools.version}.zip" dest="${solution.system.dir}" />
+<!-- 		
+ -->
 	</target>
 </project>
