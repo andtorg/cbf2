@@ -55,16 +55,11 @@
 	</target>
 
 	<target name="install-cdf" if="cdf.version">
-		<echo> cdf version is ${cdf.version}</echo>		
-		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<echo> cdf version is ${cdf.version}</echo>
+		<delete> <fileset dir="${tmp.dir}" /> </delete>
 		<delete dir="${solution.system.dir}/pentaho-cdf" />
-		<get src="http://www.webdetails.pt/ficheiros/cdf-${ctools.version}/dist.zip" dest="${tmp.dir}"></get>
-		<unzip src="${tmp.dir}/dist.zip" dest="${tmp.dir}/dest"> 
-			<patternset>
-				<include name="dist/pentaho-cdf-${ctools.version}.zip" />
-			</patternset>
-		</unzip>
-		<unzip src="${tmp.dir}/dest/dist/pentaho-cdf-${ctools.version}.zip" dest="${solution.system.dir}" />
+		<get src="http://ci.analytical-labs.com/job/Webdetails-CDF-5-Release/lastSuccessfulBuild/artifact/bi-platform-v2-plugin/dist/pentaho-cdf-${ctools.version}.zip" dest="${tmp.dir}"></get>
+		<unzip src="${tmp.dir}/pentaho-cdf-${ctools.version}.zip" dest="${solution.system.dir}" />
 	</target>
 
 	<target name="install-cde" if="cde.version">
