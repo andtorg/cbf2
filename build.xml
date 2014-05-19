@@ -44,7 +44,7 @@
 	<property name="solution.system.dir" value="${dist.dir}/pentaho-solutions/system" />
 	<property name="tmp.dir" value=".tmp" />
 
-	<target name="install-ctools" depends="make-temp-dir, install-cde, install-cdf">
+	<target name="install-ctools" depends="make-temp-dir, install-cde, install-cdf, install-cda">
 		<echo>All ctools have been installed!</echo>
 	</target>
 
@@ -75,7 +75,17 @@
 			</patternset>
 		</unzip>
 		<unzip src="${tmp.dir}/dest/dist/pentaho-cdf-dd-${ctools.version}.zip" dest="${solution.system.dir}" />
-<!-- 		
- -->
+	</target>
+
+	<target name="install-cda" if="cda.version">
+		<echo> cda version is ${cda.version}</echo>
+		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<get src="http://www.webdetails.pt/ficheiros/cda/${ctools.version}/5.x/dist.zip" dest="${tmp.dir}"></get>
+		<unzip src="${tmp.dir}/dist.zip" dest="${tmp.dir}/dest"> 
+			<patternset>
+				<include name="dist/cda-${ctools.version}.zip" />
+			</patternset>
+		</unzip>
+		<unzip src="${tmp.dir}/dest/dist/cda-${ctools.version}.zip" dest="${solution.system.dir}" />
 	</target>
 </project>
