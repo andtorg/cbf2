@@ -44,8 +44,7 @@
 	<property name="solution.system.dir" value="${dist.dir}/pentaho-solutions/system" />
 	<property name="tmp.dir" value=".tmp" />
 
-	<target name="install-plugins" depends="make-temp-dir, install-cde, install-cdf, install-cda,
-			install-cgg, install-saiku">
+	<target name="install-plugins" description="Install the most important plugins from marketplace" depends="make-temp-dir, install-cde, install-cdf, install-cda, install-cgg, install-saiku, install-sparkl, install-repositorySync">
 		<echo>All ctools have been installed!</echo>
 	</target>
 
@@ -55,7 +54,7 @@
 	</target>
 
 	<target name="install-cdf" if="cdf.version">
-		<echo> cdf version is ${cdf.version}</echo>
+		<echo> installing cdf version ${cdf.version} ...</echo>
 		<delete> <fileset dir="${tmp.dir}" /> </delete>
 		<delete dir="${solution.system.dir}/pentaho-cdf" />
 		<get src="http://ci.analytical-labs.com/job/Webdetails-CDF-5-Release/lastSuccessfulBuild/artifact/bi-platform-v2-plugin/dist/pentaho-cdf-${ctools.version}.zip" dest="${tmp.dir}"></get>
@@ -63,7 +62,7 @@
 	</target>
 
 	<target name="install-cde" if="cde.version">
-		<echo> cde version is ${cde.version}</echo>
+		<echo> installing cde version ${cde.version} ...</echo>
 		<delete> <fileset dir="${tmp.dir}" /> </delete> 
 		<delete dir="${solution.system.dir}/pentaho-cdf-dd" />
 		<get src="http://www.webdetails.pt/ficheiros/cde/${ctools.version}/5.x/dist.zip" dest="${tmp.dir}"></get>
@@ -76,7 +75,7 @@
 	</target>
 
 	<target name="install-cda" if="cda.version">
-		<echo> cda version is ${cda.version}</echo>
+		<echo> installing cda version ${cda.version} ...</echo>
 		<delete> <fileset dir="${tmp.dir}" /> </delete> 
 		<delete dir="${solution.system.dir}/cda" />
 		<get src="http://www.webdetails.pt/ficheiros/cda/${ctools.version}/5.x/dist.zip" dest="${tmp.dir}"></get>
@@ -89,7 +88,7 @@
 	</target>
 
 	<target name="install-cgg" if="cgg.version">
-		<echo> cgg version is ${cgg.version}</echo>
+		<echo> installing cgg version ${cgg.version} ...</echo>
 		<delete> <fileset dir="${tmp.dir}" /> </delete> 
 		<delete dir="${solution.system.dir}/cgg" />
 		<get src="http://www.webdetails.pt/ficheiros/cgg/${ctools.version}/5.x/dist.zip" dest="${tmp.dir}"></get>
@@ -102,11 +101,29 @@
 	</target>
 
 	<target name="install-saiku" if="saiku.version" depends="make-temp-dir">
-		<echo> saiku version is ${saiku.version}</echo>
+		<echo> installing saiku version ${saiku.version} ...</echo>
 		<delete> <fileset dir="${tmp.dir}" /> </delete>
 		<delete dir="${solution.system.dir}/saiku" />
 		<get src="http://ci.analytical-labs.com/job/saiku-bi-platform-plugin-p5/lastStableBuild/artifact/saiku-bi-platform-plugin-p5/target/saiku-plugin-p5-2.6-SNAPSHOT.zip" dest="${tmp.dir}/saiku-plugin.zip"></get>
 		<unzip src="${tmp.dir}/saiku-plugin.zip" dest="${solution.system.dir}" />
+	</target>
+
+	<target name="install-sparkl" if="sparkl.version" depends="make-temp-dir">
+		<echo> installing sparkl version ${sparkl.version} ...</echo>
+		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<delete dir="${solution.system.dir}/sparkl" />
+		<get src="http://ci.pentaho.com/job/sparkl-release/lastSuccessfulBuild/artifact/dist/sparkl-${sparkl.version}.zip" dest="${tmp.dir}"></get>
+		<unzip src="${tmp.dir}/sparkl-${sparkl.version}.zip" dest="${solution.system.dir}" />
+		<delete dir="${solution.system.dir}/sparkl/.git" />
+	</target>
+
+	<target name="install-repositorySync" if="repositorySync.version" depends="make-temp-dir">
+		<echo> installing repository synchronizer version ${repositorySync.version} ...</echo>
+		<delete> <fileset dir="${tmp.dir}" /> </delete> 
+		<delete dir="${solution.system.dir}/repositorySynchronizer" />
+		<get src="http://ci.pentaho.com/job/RepositorySynchronizer/lastSuccessfulBuild/artifact/dist/repositorySynchronizer-${repositorySync.version}.zip" dest="${tmp.dir}"></get>
+		<unzip src="${tmp.dir}/repositorySynchronizer-${repositorySync.version}.zip" dest="${solution.system.dir}" />
+		<delete dir="${solution.system.dir}/repositorySynchronizer/.git" />
 	</target>
 
 </project>
