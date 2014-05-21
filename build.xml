@@ -44,8 +44,8 @@
 	<property name="solution.system.dir" value="${dist.dir}/pentaho-solutions/system" />
 	<property name="tmp.dir" value=".tmp" />
 
-	<target name="install-ctools" depends="make-temp-dir, install-cde, install-cdf, install-cda,
-			install-cgg">
+	<target name="install-plugins" depends="make-temp-dir, install-cde, install-cdf, install-cda,
+			install-cgg, install-saiku">
 		<echo>All ctools have been installed!</echo>
 	</target>
 
